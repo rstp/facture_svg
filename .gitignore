@@ -1,0 +1,32 @@
+# object code
+*.o
+*.so
+*.a
+*.dll
+*.exe
+*.class
+
+# bytecode
+*.elc
+*.pyc 
+
+# toolchain artifacts
+config.log
+config.status
+aclocal.m4
+Makefile.in
+config.h
+
+# other error and logs
+*.err
+*.log
+
+# backups and archives
+*~
+*.tar
+*.tgz
+*.tar.gz
+
+
+/.bundle
+/.yardoc

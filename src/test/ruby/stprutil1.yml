@@ -1,0 +1,7 @@
+#test stprutil1.yml
+yy:
+  properties: '/tmp/stprutil2.yml'
+
+# botin
+xx:
+  zz: xyz
