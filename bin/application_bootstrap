@@ -2,11 +2,10 @@
 
 require 'jruby/core_ext'
 #require 'optparse'
-#require 'facture'
+require 'facture'
 require 'mylogger'
 
-Dir["./\*.jar"].each { |jar| require jar }
-#$: << "lib"
+Dir["lib\*.jar"].each { |jar| require jar }
 $: << "src/main/ruby"
 
 def Usage(message = nil)
@@ -15,7 +14,7 @@ def Usage(message = nil)
    $stderr.puts <<ENDUSAGE
 
 Commands:
-java -jar <jarfile> 
+java -jar <jarfile>
 
 ENDUSAGE
 

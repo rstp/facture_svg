@@ -3,6 +3,7 @@ source "https://rubygems.org"
 
 gem "rake"
 gem "rspec"
+gem 'logger'
 
 gem 'activemodel' ,'4.1.10'
 gem 'activerecord' ,'4.1.10'
@@ -13,5 +14,5 @@ gem 'jdbc-h2' ,'1.4.187'
 
 gem 'nokogiri'    # for xml parsing
 gem 'haml'
-gem 'log4jruby'
+#gem 'log4jruby'
 # gem "rails"

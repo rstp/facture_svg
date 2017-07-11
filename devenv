@@ -1,11 +1,12 @@
 
 # setup environment for development under jruby-complete
-export PATH=bin:$PATH
-export GEM_PATH="vendor/bundle/jruby/2.3.0"
+export PATH=.:bin:$PATH
+export GEM_PATH=$PWD"/vendor/bundle/jruby/2.3.0"
 export GEM_HOME=$GEM_PATH
 export JRUBY_COMPLETE="vendor/jruby-complete-9.1.12.0.jar"
 #
 
-alias jruby="java  -jar $JRUBY_COMPLETE "
-alias rake="./bin/rake "
-alias bundle="jruby bundle"
+alias jruby="GEM_HOME=$GEM_HOME GEM_PATH=$GEM_PATH java  -jar $JRUBY_COMPLETE -S "
+alias rake="jruby bin/rake "
+alias bundle="jruby bundle "
+alias warble="jruby warble "

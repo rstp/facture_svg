@@ -23,9 +23,9 @@
 JRUBY_COMPLETE = "vendor/jruby-complete-9.1.12.0.jar"
 jars = FileList["#{@lib_dir}/**/*.jar"].join(':')
 GEM_PATH="vendor/bundle/jruby/2.3.0"
-JRUBY = "java -classpath .:#{jars}:#{JRUBY_COMPLETE} org.jruby.Main "
+#JRUBY = "java -classpath .:#{JRUBY_COMPLETE} org.jruby.Main "
 LOCALGEMS = "GEM_HOME=#{GEM_PATH} GEM_PATH=#{GEM_PATH} "
-#JRUBY = "/usr/local/jruby/bin/jruby -I #{jars} "
+JRUBY = "/usr/local/jruby/bin/jruby "
 
 # ----- Ant-based tasks
 require 'ant'
@@ -116,17 +116,17 @@ end
 namespace :setup do
    desc "1-Install bundler"
    task :bundler do
-      sh %!#{JRUBY}  gem install -i vendor/gem_home --no-rdoc --no-ri bundler!
+      sh %!#{JRUBY} -S gem install -i vendor/gem_home --no-rdoc --no-ri bundler!
    end
-   
+
    desc "2-Install the gems"
    task :gems do
-      sh %!#{JRUBY}  bundle install --path=vendor/bundle --binstubs !
+      sh %!#{JRUBY} -S bundle install --path=vendor/bundle --binstubs !
    end
-   
+
    desc "3-Package gems"
    task :pack do
-      sh %!#{LOCALGEMS} #{JRUBY}  bundle package!
+      sh %!#{LOCALGEMS} #{JRUBY} -S bundle package!
    end
 end #setup
 
