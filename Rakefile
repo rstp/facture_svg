@@ -143,7 +143,7 @@ end
 namespace :ruby do
    task :run do
 
-     arg =  "#{@ruby_script_dir}/facture.rb"
+     arg =  "#{@ruby_bin_dir}/application_bootstrap"
      libs = "#{@ruby_script_dir}:#{@ruby_bin_dir}:#{@lib_dir}"
      JRUBY_OPTS = "-I #{libs} #{arg}"
 #     sh %!#{JRUBY} --help!

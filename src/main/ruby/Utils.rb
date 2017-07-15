@@ -1,4 +1,5 @@
 require 'yaml'
+require 'logger'
 
 class Utils
 
@@ -33,41 +34,3 @@ class Utils
         end
   end #getprops
 end
-
-# class Logger
-#    attr_reader :logf
-#    # Setup logging to the logfile and optionnally verbose output to stdout
-#    #
-#    # @param logfile string the log filename
-#    # @param verbose boolean the verbose flag
-#    def initialize(logfile="ofx.log", verbose=true)
-#       @verbose = verbose
-#       begin
-#          @logf=File.new(logfile, "a")
-#       rescue => e
-#          $stderr << "Cannot reach logfile #{logfile}.  Loging to <user home>/ofx.log\n"
-#          @logf = File.new( File.join(ENV['HOME'], "ofx.log") )
-#       end
-#    end
-#
-#    # perform logging
-#    # @param [String] message  the message to log
-#    def log(message=nil)
-#       if @verbose
-#          $stdout <<  "#{message}\n"
-#          $stdout.flush
-#       end
-#       @logf << "#{message}\n"
-#       @logf.flush
-#       end
-#
-#    def fatal(message = nil)
-#       $stderr.puts "\nFatal error:#{message}..abort."
-#       exit
-#    end
-#    def error(message = nil)
-#       $stderr.puts "\nError:#{message}"
-#    end
-#
-# end
-#

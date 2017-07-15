@@ -8,10 +8,10 @@
 # R1.0   2017-04-08 R.St-Pierre
 
 require 'nokogiri'
-require_relative 'dbUtil'
-require_relative 'Utils'
-require_relative 'options'
-require_relative 'myloger'
+require 'dbUtil'
+require 'Utils'
+require 'options'
+#require 'mylogger'
 
 ## Classe pour gérer une facture
 #
@@ -22,13 +22,15 @@ class Facture
 
  def initialize(argv)
     @options=Options.new(argv)
-    @logger=MyLogger.new(@ptions.logfile)
+#    @logger=MyLogger.new(@options.logfile)
     @utils = Utils.new
     @system = "projets"
     @pprops = @utils.getprops(File.join(ENV['HOME'] , 'stp.yml'), @system)
-    imprimeFacture(@options.nofacture)
  end
 
+ def run
+     imprimeFacture(@options.nofacture)
+ end
  # Fonction pour modifier certains champs d'un document svg
   #
   # @param svg  xmldocument  le document svg de la facture ou gabarit
@@ -111,14 +113,16 @@ class Facture
 
     # lecture du gabarit
     unless gabarit = lireGabarit(fich_gabarit)
-       @logger.fatal("Problème avec la lecture du gabarit: #{e}")
+#       @logger.fatal("Problème avec la lecture du gabarit: #{e}")
+       puts "Problème avec la lecture du gabarit: #{e}"
        return nil
     end
     # créer une nouvelle facture à partir du gabarit
 
     # lire les paramètres du client dans la bd
     unless infoclient = getBDClient(facno)
-      @logger.info "La facture #{facno} n'est pas enregistrée"
+#      @logger.info "La facture #{facno} n'est pas enregistrée"
+      puts "La facture #{facno} n'est pas enregistrée"
       exit 1
     end
 
@@ -130,13 +134,17 @@ class Facture
       f.print(newdoc)
       f.close
     }
-    @logger.info "facture #{fich_nouvelle_facture} est imprimée"
+    puts "facture #{fich_nouvelle_facture} est imprimée"
+#    @logger.info "facture #{fich_nouvelle_facture} est imprimée"
+#    @logger.close
   end
 
 end # class Facture
 #
 # fac = Facture.new
 #
+#imprimeFacture(@options.nofacture)
+
 # [1,2,3,4].each {|no|
 #   fac.imprimeFacture(no)
 # }

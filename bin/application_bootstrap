@@ -6,4 +6,4 @@ require 'facture'
 Dir["lib\*.jar"].each { |jar| require jar }
 $: << "src/main/ruby"
 
-Facture.new(ARGV)
+Facture.new(ARGV).run
