@@ -1,33 +1,9 @@
 #!/usr/bin/env jruby
 
 require 'jruby/core_ext'
-#require 'optparse'
 require 'facture'
-require 'mylogger'
 
 Dir["lib\*.jar"].each { |jar| require jar }
 $: << "src/main/ruby"
 
-def Usage(message = nil)
-   $stderr.puts "\n#{message}" if message
-   name = $0.split('/').last
-   $stderr.puts <<ENDUSAGE
-
-Commands:
-java -jar <jarfile>
-
-ENDUSAGE
-
-    exit
-end #Usage
-
-log = MyLogger.new
-log.logtest
-
-#if ARGV.size >0
-#    no = ARGV[0].to_i
-#    fac = Facture.new
-#    fac.imprimeFacture(no)
-#else
-#   Usage("")
-#end
+Facture.new(ARGV)

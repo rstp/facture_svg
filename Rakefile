@@ -142,23 +142,14 @@ end
 # ----- Ruby tasks
 namespace :ruby do
    task :run do
-       arg = ENV['facture']
-       puts arg
 
      arg =  "#{@ruby_script_dir}/facture.rb"
-     puts arg
      libs = "#{@ruby_script_dir}:#{@ruby_bin_dir}:#{@lib_dir}"
      JRUBY_OPTS = "-I #{libs} #{arg}"
 #     sh %!#{JRUBY} --help!
-      sh %!#{LOCALGEMS} #{JRUBY} -I #{libs} #{arg}!
+      sh %!#{LOCALGEMS} #{JRUBY} -I #{libs} #{arg} 2!
    end
 
-   task :log do
-     arg =  "#{@ruby_script_dir}/mylogger.rb"
-     libs = "#{@ruby_script_dir}:#{@lib_dir}"
-     JRUBY_OPTS = " -I #{libs} "
-      sh %!#{LOCALGEMS} #{JRUBY} #{JRUBY_OPTS} #{arg}!
-   end
 
 end
 

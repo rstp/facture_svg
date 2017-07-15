@@ -2,10 +2,10 @@
 require 'logger'
 
 class MyLogger
-   @log = nil
-   def initialize
-#       $LOAD_PATH.each { |c| puts c}
-       file = File.open('log2.log', 'a')
+   attr_reader :log
+   
+   def initialize(logfile)
+      file = File.open(logfile, 'a')
       @log = Logger.new(file)
 #      @log.level = Logger::WARN
 # will print something like this 

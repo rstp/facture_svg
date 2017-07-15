@@ -10,6 +10,8 @@
 require 'nokogiri'
 require_relative 'dbUtil'
 require_relative 'Utils'
+require_relative 'options'
+require_relative 'myloger'
 
 ## Classe pour gérer une facture
 #
@@ -18,11 +20,13 @@ require_relative 'Utils'
 #
 class Facture
 
- def initialize
-   @utils = Utils.new
-   @system = "projets"
-   @pprops = @utils.getprops(File.join(ENV['HOME'] , 'stp.yml'), @system)
-#     puts @pprops
+ def initialize(argv)
+    @options=Options.new(argv)
+    @logger=MyLogger.new(@ptions.logfile)
+    @utils = Utils.new
+    @system = "projets"
+    @pprops = @utils.getprops(File.join(ENV['HOME'] , 'stp.yml'), @system)
+    imprimeFacture(@options.nofacture)
  end
 
  # Fonction pour modifier certains champs d'un document svg
@@ -65,7 +69,6 @@ class Facture
   # @return none
   #
   def shoClient( fac)
-#    puts java.lang.Math::PI
     puts fac.at_xpath('//svg:text[@id="nomClient"]').inner_text
     puts fac.at_xpath('//svg:text[@id="addrClient"]').inner_text
     puts fac.at_xpath('//svg:text[@id="villeClient"]').inner_text
@@ -82,8 +85,6 @@ class Facture
     begin
       return doc = Nokogiri::XML( File.open( fich))
     rescue => e
-#       puts "Problème avec la lecture du gabarit: #{e}"
-      #     @logger.log("error=nokogiri reading {#{e}}")
       return nil
     end
   end
@@ -110,14 +111,14 @@ class Facture
 
     # lecture du gabarit
     unless gabarit = lireGabarit(fich_gabarit)
-      puts "Problème avec la lecture du gabarit #{fich_gabarit}"
-      return nil
+       @logger.fatal("Problème avec la lecture du gabarit: #{e}")
+       return nil
     end
     # créer une nouvelle facture à partir du gabarit
 
     # lire les paramètres du client dans la bd
     unless infoclient = getBDClient(facno)
-      puts "La facture #{facno} n'est pas enregistrée"
+      @logger.info "La facture #{facno} n'est pas enregistrée"
       exit 1
     end
 
@@ -129,7 +130,7 @@ class Facture
       f.print(newdoc)
       f.close
     }
-    puts "facture #{fich_nouvelle_facture} est imprimée"
+    @logger.info "facture #{fich_nouvelle_facture} est imprimée"
   end
 
 end # class Facture
