@@ -8,7 +8,7 @@
 # R1.0   2017-04-08 R.St-Pierre
 
 require 'nokogiri'
-require 'dbUtil'
+require 'projdbutil'
 require 'Utils'
 require 'options'
 #require 'mylogger'
@@ -51,11 +51,11 @@ class Facture
       facNo       = @fac.at_xpath('//svg:text[@id="facNo"]')
 
 # Replace info
-    nomClient.content = nv['nom']
-    addrClient.content = nv['addr']
-    villeClient.content = nv['ville']
-    teleClient.content = nv['tele']
-    facNo.content = nv['facno']
+    nomClient.content = nv[:nom]
+    addrClient.content = nv[:addr]
+    villeClient.content = nv[:ville]
+    teleClient.content = nv[:tele]
+    facNo.content = nv[:facno]
 
 # Return modified document
       @fac
@@ -120,12 +120,18 @@ class Facture
     # créer une nouvelle facture à partir du gabarit
 
     # lire les paramètres du client dans la bd
-    unless infoclient = getBDClient(facno)
-#      @logger.info "La facture #{facno} n'est pas enregistrée"
+    db = ProjDBUtil.new
+    puts "facno=#{facno}"
+    cl = db.getClientForInvoice(facno.to_i)
+    puts "client=#{cl}"
+
+    puts    infoclient = db.getClientInfo(cl)
+    unless infoclient
+       #      @logger.info "La facture #{facno} n'est pas enregistrée"
       puts "La facture #{facno} n'est pas enregistrée"
       exit 1
     end
-
+    infoclient.merge! :facno => facno
     # modifier la nouvelle facture avec les infos de la bd
     newdoc = modifDoc(gabarit, infoclient)
 

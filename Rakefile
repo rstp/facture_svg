@@ -1,6 +1,6 @@
 
 #$LOAD_PATH.unshift ".lib"
-
+ANT_HOME             = '/usr/local/ant'
 @project_name        = 'ProjetStp'
 @lib_dir             = 'lib'
 # Ruby stuff
@@ -25,7 +25,7 @@ jars = FileList["#{@lib_dir}/**/*.jar"].join(':')
 GEM_PATH="vendor/bundle/jruby/2.3.0"
 #JRUBY = "java -classpath .:#{JRUBY_COMPLETE} org.jruby.Main "
 LOCALGEMS = "GEM_HOME=#{GEM_PATH} GEM_PATH=#{GEM_PATH} "
-JRUBY = "/usr/local/jruby/bin/jruby "
+JRUBY = "/usr/local/jruby/bin/jruby --ng "
 
 # ----- Ant-based tasks
 require 'ant'
@@ -147,7 +147,7 @@ namespace :ruby do
      libs = "#{@ruby_script_dir}:#{@ruby_bin_dir}:#{@lib_dir}"
      JRUBY_OPTS = "-I #{libs} #{arg}"
 #     sh %!#{JRUBY} --help!
-      sh %!#{LOCALGEMS} #{JRUBY} -I #{libs} #{arg} 2!
+      sh %!#{LOCALGEMS} #{JRUBY} -I #{libs} #{arg} 8!
    end
 
 
