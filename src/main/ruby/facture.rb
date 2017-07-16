@@ -101,41 +101,41 @@ class Facture
     clientinfo = db.findClient(no)
   end
 
-  ## Imprime une nouvelle facture
+  ## Crere une nouvelle facture a partir d'un gabarit (svg)
   #
   # @param integer no le numero de la facture
   # @return fichier nouvelle facture f<no>.svg
   #
   def imprimeFacture(no)
-    fich_gabarit = "facture.svg"
     facno = no
-    fich_nouvelle_facture = "f#{facno}.svg"
-
-    # lecture du gabarit
-    unless gabarit = lireGabarit(fich_gabarit)
-#       @logger.fatal("Problème avec la lecture du gabarit: #{e}")
-       puts "Problème avec la lecture du gabarit: #{e}"
-       return nil
-    end
-    # créer une nouvelle facture à partir du gabarit
 
     # lire les paramètres du client dans la bd
-    db = ProjDBUtil.new
-    puts "facno=#{facno}"
-    cl = db.getClientForInvoice(facno.to_i)
-    puts "client=#{cl}"
 
-    puts    infoclient = db.getClientInfo(cl)
+    db = ProjDBUtil.new
+    infoclient = db.getClientInfo(db.getClientForInvoice(facno.to_i))
     unless infoclient
        #      @logger.info "La facture #{facno} n'est pas enregistrée"
       puts "La facture #{facno} n'est pas enregistrée"
       exit 1
     end
-    infoclient.merge! :facno => facno
+    infoclient.merge! :facno => "f#{facno}"  # le no de la facture n'est pas dans les info
+
+    
+    # lecture du gabarit
+    
+    fich_nouvelle_facture = "f#{facno}.svg"
+    unless gabarit = lireGabarit(@options.fich_gabarit)
+#       @logger.fatal("Problème avec la lecture du gabarit: #{e}")
+       puts "Problème avec la lecture du gabarit: #{e}"
+       return nil
+    end
+    
     # modifier la nouvelle facture avec les infos de la bd
+
     newdoc = modifDoc(gabarit, infoclient)
 
     # Écrire la nouvelle facture
+
     File.open(fich_nouvelle_facture, 'w') { |f|
       f.print(newdoc)
       f.close

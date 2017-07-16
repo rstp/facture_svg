@@ -5,12 +5,15 @@ require 'optparse'
       attr_reader :logfile
       attr_reader :silent
       attr_reader :nofacture
+      attr_reader :fich_gabarit
 
       def initialize(argv = [])
          @silent = false
          @logfile = "facture_svg.log"
+         @fich_gabarit = "facture.svg"
          parse(argv)
-# what's left after the options
+
+         # what's left after the options
          @nofacture = argv[0]   # only the first argument
       end
 private
@@ -27,9 +30,9 @@ private
 #               $stdout << RECOVERY
 #               exit 0
 #            end
-#            opts.on("-c", "--config configfilename",  "The yml configuration file") do |fn|
-#               @configfile = fn
-#            end
+            opts.on("-g", "--gabarit fichier_gabarit",  "The svg gabarit file") do |fn|
+               @fich_gabarit = fn
+            end
 #            opts.on("-d", "debug mode on (no run)") do
 #               @debug = true
 #            end
